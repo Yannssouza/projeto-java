@@ -147,7 +147,7 @@ public class Menu {
     private static void sobre() {
         System.out.println("\n*********************************************************");
         System.out.println("Projeto Desenvolvido por: Yann");
-        System.out.println("github.com");
+        System.out.println("github.com/Yannssouza");
         System.out.println("*********************************************************");
     }
 
