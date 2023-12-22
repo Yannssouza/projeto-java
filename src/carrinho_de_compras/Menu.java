@@ -1,15 +1,23 @@
 package carrinho_de_compras;
 
+import carrinho_de_compras.model.CarrinhoCliente;
+import carrinho_de_compras.model.LojaSupremo;
+
 import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Menu {
 
+    private static CarrinhoCliente carrinhoCliente;
+
     public static void main(String[] args) {
 
         Scanner leia = new Scanner(System.in);
         int opcao;
+
+        new LojaSupremo();
+        carrinhoCliente = null;
 
         while (true) {
 
@@ -67,6 +75,7 @@ public class Menu {
         leia.skip("\\R?");
         String nome = leia.nextLine();
 
+        carrinhoCliente = new CarrinhoCliente(nome);
         System.out.println("Carrinho criado para " + nome);
         keyPress();
     }
@@ -74,6 +83,11 @@ public class Menu {
     private static void listarItensDoCarrinho() {
         System.out.println("Listar Itens do Carrinho\n\n");
 
+        if (carrinhoCliente != null) {
+            carrinhoCliente.visualizar();
+        } else {
+            System.out.println("Carrinho ainda não foi criado.");
+        }
 
         keyPress();
     }
@@ -81,11 +95,22 @@ public class Menu {
     private static void listarItensDaLoja() {
         System.out.println("Listar Itens da Loja\n\n");
 
+        LojaSupremo.visualizarProdutosDisponiveis();
+
         keyPress();
     }
 
     private static void adicionarItensAoCarrinho(Scanner leia) {
         System.out.println("Adicionar Itens ao Carrinho\n\n");
+
+        if (carrinhoCliente != null) {
+            System.out.println("Digite o nome do produto a ser adicionado:");
+            String produto = leia.next();
+            carrinhoCliente.adicionarProdutoNoCarrinho(produto);
+            System.out.println("Produto adicionado ao carrinho.");
+        } else {
+            System.out.println("Carrinho ainda não foi criado.");
+        }
 
         keyPress();
     }
@@ -93,12 +118,22 @@ public class Menu {
     private static void removerItensDoCarrinho(Scanner leia) {
         System.out.println("Remover Itens ao Carrinho\n\n");
 
+        if (carrinhoCliente != null && !carrinhoCliente.getProdutosNoCarrinho().isEmpty()) {
+            System.out.println("Digite o nome do produto a ser removido:");
+            String produto = leia.next();
+            carrinhoCliente.removerProdutoDoCarrinho(produto);
+            System.out.println("Produto removido do carrinho.");
+        } else {
+            System.out.println("Carrinho está vazio ou ainda não foi criado.");
+        }
+
         keyPress();
     }
 
     private static void apagarCarrinho() {
         System.out.println("Apagar Carrinho\n\n");
 
+        carrinhoCliente = null;
         System.out.println("Carrinho apagado.");
         keyPress();
     }
